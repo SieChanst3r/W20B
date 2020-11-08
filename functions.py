@@ -107,3 +107,70 @@ def updateExploit(updatedContent, id):
         if conn != None:
             conn.rollback()
             conn.close()
+
+#GET current USER Exploits
+def userExploits(user):
+    conn = None
+    cursor = None
+    try:
+        conn = mariadb.connect(user=dbcreds.user, password=dbcreds.password, port=dbcreds.port, database=dbcreds.database, host=dbcreds.host)
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM exploits e INNER JOIN hackers h ON e.user_id = h.id WHERE user_id = ?", [user[2], ])
+        exploits = cursor.fetchall()
+        for exploit in exploits:
+            print("Alias: " + str(exploit[3]))
+            print("Exploit Id: " + str(exploit[1]))
+            print("Exploit: " + str(exploit[0]))
+            print()
+
+        if(cursor.rowcount == 0):
+            print("Awe, something went wrong here :( ")
+
+    except mariadb.ProgrammingError:
+        print("There was an issue, hacker made an error..")
+    except mariadb.OperationalError:
+        print("Oops, a connection error occurred.")
+    finally:
+        if cursor != None:
+            cursor.close()
+        if conn != None:
+            conn.rollback()
+            conn.close()
+
+#AllExploits GET
+def AllHackerExploits(user):
+    conn = None
+    cursor = None
+    try:
+        conn = mariadb.connect(user=dbcreds.user, password=dbcreds.password, port=dbcreds.port, database=dbcreds.database, host=dbcreds.host)
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM exploits e INNER JOIN hackers h ON e.user_id = h.id WHERE user_id != ?", [user[2], ])
+        exploits = cursor.fetchall()
+        for exploit in exploits:
+            print("Alias: " + str(exploit[3]))
+            print("Exploit: " + str(exploit[0]))
+            print()
+
+    except mariadb.ProgrammingError:
+        print("Sorry, a Hacker here made a programming error!")
+    except mariadb.OperationalError:
+        print("There was a connection error!")
+    finally:
+        if cursor != None:
+            cursor.close()
+        if conn != None:
+            conn.rollback()
+            conn.close()
+
+
+# USER LOGOUT
+def userLogout(user):
+    conn = None
+    cursor = None
+    conn = mariadb.connect(user=dbcreds.user, password=dbcreds.password, port=dbcreds.port, database=dbcreds.database, host=dbcreds.host)
+    cursor = conn.cursor()
+    cursor.close()
+    conn.rollback()
+    conn.close()
+    print("You're logged out!")
+
