@@ -1,2 +1,2 @@
 # W20B
-Command line social network (ITC)
+Command Line Social Media (ITC)
