@@ -88,3 +88,22 @@ def updateExploit(updatedContent, id):
     try:
         conn = mariadb.connect(user=dbcreds.user, password=dbcreds.password, port=dbcreds.port, database=dbcreds.database, host=dbcreds.host)
         cursor = conn.cursor()
+        cursor.execute("UPDATE exploits SET content = ?", [updatedContent, id])
+        conn.commit()
+
+        if(cursor.rowcount == 1):
+            print("Exploit updated!")
+            print()
+        else:
+            print("Oops, what happened?? It didn't work.")
+
+    except mariadb.ProgrammingError:
+        print("There was an issue, hacker made an error..")
+    except mariadb.OperationalError:
+        print("Oops, a connection error occurred.")
+    finally:
+        if cursor != None:
+            cursor.close()
+        if conn != None:
+            conn.rollback()
+            conn.close()
