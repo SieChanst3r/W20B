@@ -44,7 +44,7 @@ def userLog(username, password):
         else:
             print("User Not Valid")
      except mariadb.ProgrammingError:
-        print("Sorry, an error occurred to this HACKER")
+        print("Sorry hacker, an error occurred :/ ")
     except mariadb.OperationalError:
         print("Connection error, Oops!")
     finally:
