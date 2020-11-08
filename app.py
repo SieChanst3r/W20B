@@ -23,9 +23,9 @@ while True:
                     updatedContent = input("Please updated your Exploit: ")
                     functions.updateExploit(updatedContent, id)
                 elif menuSelection == "3":
-                    functions.myExploits(user)
+                    functions.userExploits(user)
                 elif menuSelection == "4":
-                    functions.otherHackerExploits(user)
+                    functions.AllHackerExploits(user)
                 elif menuSelection == "5":
                     functions.userLogout(user)
                     break
