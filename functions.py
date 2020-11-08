@@ -53,3 +53,38 @@ def userLog(username, password):
         if conn != None:
             conn.rollback()
             conn.close()
+
+#CREATE POST
+def postExploit(content, user):
+    conn = None
+    cursor = None
+    try:
+        conn = mariadb.connect(user=dbcreds.user, password=dbcreds.password, port=dbcreds.port, database=dbcreds.database, host=dbcreds.host)
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO exploits(content, user_id) VALUES(?, ?)", [content, user[2]])
+        conn.commit()
+
+        if(cursor.rowcount == 1):
+            print("Exploit successful!")
+            print()
+        else:
+            print("Exploit failed..")
+
+    except mariadb.ProgrammingError:
+        print("There was an issue, hacker made an error..")
+    except mariadb.OperationalError:
+        print("The connection was lost..")
+    finally:
+        if cursor != None:
+            cursor.close()
+        if conn != None:
+            conn.rollback()
+            conn.close()
+
+#UPDATE
+def updateExploit(updatedContent, id):
+    conn = None
+    cursor = None
+    try:
+        conn = mariadb.connect(user=dbcreds.user, password=dbcreds.password, port=dbcreds.port, database=dbcreds.database, host=dbcreds.host)
+        cursor = conn.cursor()
